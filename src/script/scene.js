@@ -103,10 +103,10 @@ function drawScene() {
     // Extra Task: Setup this matrix from scratch
 
     // modify vMatrix
-    vMatrix = mat4.translate(vMatrix,vMatrix,[0,0,-9]);
-    vMatrix = mat4.rotate(vMatrix,vMatrix,-vertical,[1,0,0]);
-    vMatrix = mat4.rotate(vMatrix,vMatrix,-horizontal,[0,1,0]);
-    vMatrix = mat4.rotate(vMatrix,vMatrix,-yaw,[0,0,1]);
+    mat4.translate(vMatrix,vMatrix,[0,0,-9]);
+    mat4.rotate(vMatrix,vMatrix,-vertical,[1,0,0]);
+    mat4.rotate(vMatrix,vMatrix,-horizontal,[0,1,0]);
+    mat4.rotate(vMatrix,vMatrix,-yaw,[0,0,1]);
     // Task: Try to translate this code to mat4.lookAt
     
     // drawing Scene
@@ -141,6 +141,14 @@ function drawScene() {
     vi = generateSphere(0.5);
     mat4.identity(mMatrix);
     mMatrix = mat4.translate(mMatrix,mMatrix,[sphereX,sphereY,sphereZ]);
+    drawBuffer(vi[0],vi[1],vi[2]);
+
+    // 'carpet'
+    mat_ambient = [0.1, 0.1, 0.1, 1]; 
+
+    vi = generateCylinder(5,5,0.1);
+    mat4.identity(mMatrix);
+    mMatrix = mat4.translate(mMatrix,mMatrix,[0,-2,0]);
     drawBuffer(vi[0],vi[1],vi[2]);
 }
 //////////// Camera & Object Controls ////////////////////////

@@ -2,7 +2,7 @@
 Elijah Morgan \
 CIS 367 01
 
-![Demo image, WIP](./img/placeholder.jpeg)
+![Demo image, WIP](./img/demo.png)
 
 ### Development Info
 | OS               	| BROWSER 	|
@@ -25,7 +25,4 @@ Simple 3D scene with interactable camera and object.
 * Allow user to [rotate camera](https://en.wikipedia.org/wiki/Aircraft_principal_axes).
 * Allow user to move one object around with WASD
   * Added Up and Down movement with QE
-
-
-## TODO
 * Add value input for projection parameters “Fov y”, “aspect ratio”, “Near Plane”, and “Far Plane".
