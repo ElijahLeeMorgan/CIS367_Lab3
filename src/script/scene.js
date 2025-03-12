@@ -21,6 +21,7 @@ var pMatrix = mat4.create();  //projection matrix
 var nMatrix = mat4.create();  // normal matrix
 let horizontal = 0.0;
 let vertical = 0.0;
+let yaw = 0.0;
 
 function webGLStart() {
     initGL(canvas);
@@ -48,7 +49,7 @@ function webGLStart() {
 
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
-    document.addEventListener('mousedown', onDocumentMouseDown,false); 
+    document.addEventListener('keydown', onDocumentKeyDown, false);
 
     drawScene();
 }
@@ -68,7 +69,7 @@ function initGL(canvas) {
 }
 
 
-///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
 
 function drawScene() {
     let vi; //vector containing geometric information
@@ -89,21 +90,12 @@ function drawScene() {
     // Extra Task: Setup this matrix from scratch
 
     // modify vMatrix
-    // Task: Think of where is our eye position and where is the center of the scene with the following setup
-    // What does the following code do?
     vMatrix = mat4.translate(vMatrix,vMatrix,[0,0,-9]);
     vMatrix = mat4.rotate(vMatrix,vMatrix,-vertical,[1,0,0]);
     vMatrix = mat4.rotate(vMatrix,vMatrix,-horizontal,[0,1,0]);
-    // Task: How to pan/tilt the camera?
+    vMatrix = mat4.rotate(vMatrix,vMatrix,-yaw,[0,0,1]);
     // Task: Try to translate this code to mat4.lookAt
     
-    //modify mMatrix here
-    // //test
-    // vi = generateCube(0.3);
-    // mat4.identity(mMatrix);	
-    // mMatrix = mat4.scale(mMatrix,[1,1,20]);
-    // drawBuffer(vi[0],vi[1],vi[2]);
-
     // drawing Scene
 
     // Yellow cylinder
@@ -137,85 +129,32 @@ function drawScene() {
     mat4.identity(mMatrix);
     drawBuffer(vi[0],vi[1],vi[2]);
 }
-
-/* WIP, AI assisted code.
-document.addEventListener('keydown', onDocumentKeyDown, false);
-
+//////////// Camera Controls ////////////////////////
+// Start AI code
 function onDocumentKeyDown(event) {
     switch (event.code) {
-        case 'Numpad8':
-            vertical -= 0.1; // Pitch up
+        case 'ArrowUp':
+            vertical -= 0.05; // Pitch up
             break;
-        case 'Numpad2':
-            vertical += 0.1; // Pitch down
+        case 'ArrowDown':
+            vertical += 0.05; // Pitch down
             break;
-        case 'Numpad4':
-            horizontal -= 0.1; // Roll left
+        case 'ArrowLeft':
+            horizontal -= 0.05; // Roll left
             break;
-        case 'Numpad6':
-            horizontal += 0.1; // Roll right
+        case 'ArrowRight':
+            horizontal += 0.05; // Roll right
             break;
-        case 'Numpad7':
-            yaw -= 0.1; // Yaw left
+        case 'BracketLeft':
+            yaw -= 0.05; // Yaw left
             break;
-        case 'Numpad9':
-            yaw += 0.1; // Yaw right
+        case 'BracketRight':
+            yaw += 0.05; // Yaw right
             break;
     }
     drawScene();
 }
-*/
-
-    ///////////////////////////////////////////////////////////////
-
-    var lastMouseX = 0;
-    let lastMouseY = 0;
-    
-        ///////////////////////////////////////////////////////////////
-    
-    function onDocumentMouseDown( event ) {
-        event.preventDefault();
-        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-        document.addEventListener( 'mouseup', onDocumentMouseUp, false );
-        // document.addEventListener( 'mouseout', onDocumentMouseOut, false );
-        var mouseX = event.clientX;
-        var mouseY = event.clientY;
-    
-        lastMouseX = mouseX;
-        lastMouseY = mouseY; 
-    
-    }
-    
-    function onDocumentMouseMove( event ) {
-        var mouseX = event.clientX;
-        var mouseY = event.clientY; 
-    
-        var diffX = mouseX - lastMouseX;
-        var diffY = mouseY - lastMouseY;
-    
-    
-        // if(Math.abs(diffX)>5 ||Math.abs(diffY)>5){
-            horizontal = horizontal + diffX/100;
-            vertical = vertical +diffY/200;
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-            drawScene();
-        // }
-    }
-    
-    function onDocumentMouseUp( event ) {
-        document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
-        document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
-        document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
-    }
-    
-    function onDocumentMouseOut( event ) {
-        document.removeEventListener( 'mousemove', onDocumentMouseMove, false );
-        document.removeEventListener( 'mouseup', onDocumentMouseUp, false );
-        document.removeEventListener( 'mouseout', onDocumentMouseOut, false );
-    }
-    
-    ///////////////////////////Helper functions////////////////////////////////////////
+///////////////////////////Helper functions////////////////////////////////////////
 
 function generateSphere(radius, nSlice=20,nStack=20){
     // set up transform matrix before calling this function

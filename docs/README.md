@@ -9,8 +9,8 @@ Simple 3D scene with interactable camera.
   * Cube
   * Cylinder
   * Sphere
+* Allow user to [rotate camera](https://en.wikipedia.org/wiki/Aircraft_principal_axes).
 
 ## TODO
 * Allow user to move one object around with WASD
-* Allow user to [rotate camera](https://en.wikipedia.org/wiki/Aircraft_principal_axes).
 * Add value input for projection parameters “Fov y”, “aspect ratio”, “Near Plane”, and “Far Plane".
