@@ -20,12 +20,21 @@ var mvMatrix = mat4.create();  // modelview matrix
 var pMatrix = mat4.create();  //projection matrix 
 var nMatrix = mat4.create();  // normal matrix
 
+// Camera
 let horizontal = 0.0;
 let vertical = 0.0;
 let yaw = 0.0;
+
+// Sphere
 let sphereX = 0.0;
 let sphereY = 0.0;
 let sphereZ = 0.0;
+
+// Projection matrix modifiers
+let fovY = 60.0;
+let aspect = 1.0;
+let near = 0.1;
+let far = 20.0;
 
 function webGLStart() {
     initGL(canvas);
@@ -85,7 +94,7 @@ function drawScene() {
 
     // set up the projection matrix
     // mat4.perspective(60, 1.0, 0.1, 20, pMatrix);  
-    mat4.perspective(pMatrix, glMatrix.toRadian(60), 1.0, 0.1, 20); // changed to glMatrix version 2
+    mat4.perspective(pMatrix, glMatrix.toRadian(fovY), aspect, near, far); // changed to glMatrix version 2
     // fovy, aspect, near, far
     // Try changing the parameters to see the effects
     // Task: Change from mat4.perspective to mat4.frustum to have the same effect
@@ -177,6 +186,27 @@ function onDocumentKeyDown(event) {
             sphereY -= 0.05; // Move object down
             break;
     }
+    drawScene();
+}
+
+///////////////////////////Projection Update functions//////////////////////////////
+function changeFov(value){
+    fovY = value;
+    drawScene();
+}
+
+function changeAspect(value){
+    aspect = value;
+    drawScene();
+}
+
+function changeNear(value){
+    near = value;
+    drawScene();
+}
+
+function changeFar(value){
+    far = value;
     drawScene();
 }
 

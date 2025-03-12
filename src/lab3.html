@@ -112,8 +112,21 @@
             <button onclick="document.getElementById('helpOverlay').style.display='none'">Close</button>
           </div>
         </div>
+        <br>
+         <!--parameters “Fov y”, “aspect ratio”, “Near Plane”, and “FarPlane-->
+          <form>
+            <label for="fov">Fov y:</label>
+            <input type="range" id="fov" name="fov" min="1" max="180" value="60" step="1" oninput="changeFov(this.value)">
+            <label for="aspect">Aspect Ratio:</label>
+            <input type="range" id="aspect" name="aspect" min="0.1" max="5.0" value="1.0" step="0.1" oninput="changeAspect(this.value)">
+            <label for="near">Near Plane:</label>
+            <input type="range" id="near" name="near" min="-10.0" max="10.0" value="0.1" step="0.1" oninput="changeNear(this.value)">
+            <label for="far">Far Plane:</label>
+            <input type="range" id="far" name="far" min="0" max="100.0" value="20.0" step="1.0" oninput="changeFar(this.value)">
+          </form>
+        </br>
         <!-- End AI Assisted Code-->
-      </br>
+        </br>
   </center>
 <br>
   <br>
