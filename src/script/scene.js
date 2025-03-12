@@ -19,9 +19,13 @@ var mMatrix = mat4.create();  // model matrix
 var mvMatrix = mat4.create();  // modelview matrix
 var pMatrix = mat4.create();  //projection matrix 
 var nMatrix = mat4.create();  // normal matrix
+
 let horizontal = 0.0;
 let vertical = 0.0;
 let yaw = 0.0;
+let sphereX = 0.0;
+let sphereY = 0.0;
+let sphereZ = 0.0;
 
 function webGLStart() {
     initGL(canvas);
@@ -127,12 +131,14 @@ function drawScene() {
 
     vi = generateSphere(0.5);
     mat4.identity(mMatrix);
+    mMatrix = mat4.translate(mMatrix,mMatrix,[sphereX,sphereY,sphereZ]);
     drawBuffer(vi[0],vi[1],vi[2]);
 }
-//////////// Camera Controls ////////////////////////
+//////////// Camera & Object Controls ////////////////////////
 // Start AI code
 function onDocumentKeyDown(event) {
     switch (event.code) {
+        // Camera controls
         case 'ArrowUp':
             vertical -= 0.05; // Pitch up
             break;
@@ -151,9 +157,29 @@ function onDocumentKeyDown(event) {
         case 'BracketRight':
             yaw += 0.05; // Yaw right
             break;
+        // Sphere controls
+        case 'KeyW':
+            sphereZ -= 0.05;  // Move object forward
+            break;
+        case 'KeyS':
+            sphereZ += 0.05; // Move object backward
+            break;
+        case 'KeyA':
+            sphereX -= 0.05; // Move object left
+            break;
+        case 'KeyD':
+            sphereX += 0.05; // Move object right
+            break;
+        case 'KeyE':
+            sphereY += 0.05; // Move object up
+            break;
+        case 'KeyQ':
+            sphereY -= 0.05; // Move object down
+            break;
     }
     drawScene();
 }
+
 ///////////////////////////Helper functions////////////////////////////////////////
 
 function generateSphere(radius, nSlice=20,nStack=20){
