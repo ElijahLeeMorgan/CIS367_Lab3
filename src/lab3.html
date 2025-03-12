@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>Torii</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<!--  ************** Fragment Shader ************* --> 
+<script id="shader-fs" type="x-shader/x-fragment">
+  precision mediump float;
+
+  uniform vec4 ambient_coef;
+  uniform vec4 diffuse_coef;
+  uniform vec4 specular_coef;
+  uniform vec4 light_color;
+  uniform float mat_shininess; 
+
+  varying vec4 eye_pos;  //vertex position in eye space 
+  varying vec3 v_normal;  // vertex normal
+  varying vec3 light_v; //parallel light vector in eye
+  varying vec3 eye_vector;
+
+  void main(void) {
+    vec3 v = normalize(v_normal);
+    vec3 l = normalize(light_v);
+    vec3 e = normalize(eye_vector);
+
+    vec4 ambient = ambient_coef * light_color; 
+
+    float ndotl = max(dot(v, l), 0.0);  
+
+    vec4 diffuse = diffuse_coef * light_color* ndotl;
+
+    //      both lines below are okay. One is to use the reflect function the other is to compute by yourself 
+    vec3 R= normalize(vec3(reflect(-l, v))); 
+    float rdotv = max(dot(R, e), 0.0);
+
+    vec4 specular;  
+    if (ndotl>0.0) 
+      specular = specular_coef* light_color*pow(rdotv, mat_shininess); 
+    else
+      specular = vec4(0,0,0,1);  
+
+
+    gl_FragColor = ambient+diffuse+specular; 
+  }
+  
+</script>
+
+<!--  ************** Vertex Shader ************* --> 
+<script id="shader-vs" type="x-shader/x-vertex">
+
+  attribute vec3 aVertexPosition;
+  attribute vec3 aVertexNormal;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix; 
+  uniform mat4 uNMatrix;  // convert normals from world to eye
+  uniform vec4 light_vector; 
+
+
+  varying vec4 eye_pos;  //vertex position in eye space 
+  varying vec3 v_normal;  // vertex normal
+  varying vec3 light_v;
+  varying vec3 eye_vector;
+
+  void main(void) {
+
+    // transform normal from local to eye space: normal matrix is the inverse transpose of the modelview matrix 
+    v_normal =vec3(uNMatrix*vec4(aVertexNormal,0.0));
+
+    // transform the vertex position to eye space 
+    eye_pos = uMVMatrix*vec4(aVertexPosition, 1.0);
+
+    // eye vector V = e-p, where e is (0,0,0) 
+    eye_vector = -vec3(eye_pos);
+
+    light_v = vec3(uNMatrix*light_vector);
+    // uncomment the line below to define the point light source at eye location
+    // light_v = vec3(-eye_pos);
+
+    gl_Position = uPMatrix*uMVMatrix*vec4(aVertexPosition, 1.0);
+
+  }
+</script>
+
+
+
+
+</head>
+
+
+<body onload="webGLStart();">
+
+    <canvas id="myCanvas" width="600"height="600"></canvas>
+
+
+
+<br>
+  <br>
+    <footer>
+      <center>
+        <p>Modified from Example Created by &copy; Haoyu Li</p>
+      </center>
+    </footer>
+  </br>
+  <!-- Le javascript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+  <!-- <script type="text/javascript" src="glMatrix-0.9.5.min.js"></script> -->
+  <script type="text/javascript" src="script/shaders_setup.js"></script>
+  <script type="text/javascript" src="script/scene.js"></script>
+<br/>
+
+</body>
+
+
+</html>
+
