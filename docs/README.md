@@ -1,8 +1,21 @@
 # CIS367_Lab3
-Elijah Morgan
-CIS 367 01 \
+Elijah Morgan \
+CIS 367 01
 
-Simple 3D scene with interactable camera.
+![Demo image, WIP](./img/placeholder.jpeg)
+
+### Development Info
+| OS               	| BROWSER 	|
+|------------------	|---------	|
+| Ubuntu 22.04 LTS 	| Firefox 	|
+
+Simple 3D scene with interactable camera and object.
+
+### User Interaction
+| ACTION| Pitch Camera  | Roll Camera      | Yaw Camera  | Sphere Back & Forth | Sphere Left &Right  | Sphere Up & Down  |
+|------	|---------------|------------------|-------------|---------------------|---------------------|-------------------|
+| KEY   | Up/Down Arrow | Left/Right Arrow | [ / ]         | W/S                 | A/D                 | E/Q               |
+
 
 ## Finished Tasks
 * Render scene with 3 basic objects.
